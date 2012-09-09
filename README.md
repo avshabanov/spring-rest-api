@@ -6,7 +6,7 @@ Illustration of the best practices for designing and testing client-server appli
 ## Install
 mvn clean install
 
-## Usages
+## Usage
 
 Sample usage when testing:
 
