@@ -76,7 +76,7 @@
                 <version>${aspectj.version}</version>
             </dependency>
 
-            <!-- CGLIB, only required and used for @Configuration usage -->
+            <!-- CGLIB -->
             <dependency>
                 <groupId>cglib</groupId>
                 <artifactId>cglib-nodep</artifactId>
@@ -165,9 +165,9 @@
                 <scope>test</scope>
             </dependency>
             <dependency>
-                <groupId>org.easymock</groupId>
-                <artifactId>easymock</artifactId>
-                <version>3.0</version>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.9.0</version>
                 <scope>test</scope>
             </dependency>
 
@@ -217,8 +217,8 @@
             <artifactId>junit</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
         </dependency>
     </dependencies>
 
