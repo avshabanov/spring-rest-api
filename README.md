@@ -20,10 +20,8 @@ Sample usage when testing:
 
 ## Notes
 The illustrated sample uses
-
-    + Class-driven configuration for spring -  [@Configuration annotation](http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/context/annotation/Configuration.html).
-
-    + Standardized annotation **@Inject** instead of **@Autowired**.
++ Class-driven configuration for spring -  [@Configuration annotation](http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/context/annotation/Configuration.html).
++ Standardized annotation **@Inject** instead of **@Autowired**.
 
 
 Now REST API testing should not be a problem :)
