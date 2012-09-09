@@ -9,18 +9,21 @@ mvn clean install
 ## Usages
 
 Sample usage when testing:
+
+```java
     @Inject
     private RestApiTestSupport support;
     // ...
     MockHttpServletResponse response = support.handle(mockHttpServletRequest);
     // verify response
+```
 
 ## Notes
 The illustrated sample uses
 
-    - Class-driven configuration for spring -  [@Configuration annotation](http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/context/annotation/Configuration.html).
+    + Class-driven configuration for spring -  [@Configuration annotation](http://static.springsource.org/spring/docs/3.0.x/javadoc-api/org/springframework/context/annotation/Configuration.html).
 
-    - Standardized annotation **@Inject** instead of **@Autowired**.
+    + Standardized annotation **@Inject** instead of **@Autowired**.
 
 
 Now REST API testing should not be a problem :)
