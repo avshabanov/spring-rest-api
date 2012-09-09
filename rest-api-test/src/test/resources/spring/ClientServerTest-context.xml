@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <bean class="com.alexshabanov.springrestapi.restapitest.DefaultRestTestSupport"/>
+    <bean class="com.alexshabanov.springrestapi.restapitest.RestOperationsTestClient"/>
+
+    <!-- Tested controllers -->
+    <bean class="com.alexshabanov.springrestapi.ClientServerTest.TestController"/>
+
+    <!-- Turns on support for mapping requests to Spring MVC @Controller methods -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+                <property name="objectMapper.serializationInclusion" value="NON_NULL"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+</beans>
