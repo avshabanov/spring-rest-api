@@ -47,7 +47,23 @@ public final class DefaultRestTestSupport implements RestTestSupport {
         Object handler = null;
 
         try {
-            handler = handleRequest(request, response);
+            // delegates request processing to the spring facilities
+            for (HandlerMapping mapping : context.getBeansOfType(HandlerMapping.class).values()) {
+                final HandlerExecutionChain chain = mapping.getHandler(request);
+                if (chain == null) {
+                    continue;
+                }
+
+                handler = chain.getHandler();
+                if (handler != null) {
+                    handlerAdapter.handle(request, response, chain.getHandler());
+                    break;
+                }
+            }
+
+            if (handler == null) {
+                throw new AssertionError("Can't handle request in the current context");
+            }
         } catch (Exception e) {
             if (handleException(e, request, response, handler)) {
                 return response;
@@ -58,23 +74,6 @@ public final class DefaultRestTestSupport implements RestTestSupport {
         }
 
         return response;
-    }
-
-    // delegates request processing to the spring facilities
-    private Object handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        for (HandlerMapping mapping : context.getBeansOfType(HandlerMapping.class).values()) {
-            final HandlerExecutionChain chain = mapping.getHandler(request);
-            if (chain == null) {
-                continue;
-            }
-
-            if (chain.getHandler() != null) {
-                handlerAdapter.handle(request, response, chain.getHandler());
-                return chain.getHandler();
-            }
-        }
-
-        throw new AssertionError("Can't handle request in the current context");
     }
 
     // tries to find the exception resolver and return error payload within the response, if exception is mapped to the request
@@ -90,7 +89,8 @@ public final class DefaultRestTestSupport implements RestTestSupport {
         OrderComparator.sort(resolvers);
 
         for (HandlerExceptionResolver exceptionResolver : resolvers) {
-            if (exceptionResolver.resolveException(request, response, handler, e) != null) {
+            final Object o = exceptionResolver.resolveException(request, response, handler, e);
+            if (o != null) {
                 // we don't care about model-and-view in the result (this is not needed for testing)
                 return true;
             }

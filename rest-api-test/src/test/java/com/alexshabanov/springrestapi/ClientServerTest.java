@@ -17,13 +17,18 @@ package com.alexshabanov.springrestapi;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestOperations;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
 import static org.junit.Assert.*;
 
@@ -39,9 +44,10 @@ public final class ClientServerTest {
     private static final String REST_API_METHOD_PREFIX = "/rest/test";
 
     // Relative URLs for the exposed REST methods.
-    private static final String GET_PROFILE = "/profile/{id}/{name}";
-
-    private static final String PROFILE = "/profile";
+    private static final String COMPLETE_PROFILE_RESOURCE = "/profile/{id}/{name}";
+    private static final String PROFILE_RESOURCE = "/profile";
+    private static final String BAD_REQUEST_RESOURCE = "/bad-request";
+    private static final String UNSUPPORTED_RESOURCE = "/unsupported";
 
     @Inject
     private RestOperations restClient;
@@ -52,7 +58,7 @@ public final class ClientServerTest {
         final Profile expected = new Profile(1, "name");
 
         final Profile actual = restClient.getForObject(
-                path(GET_PROFILE),
+                path(COMPLETE_PROFILE_RESOURCE),
                 Profile.class,
                 expected.getId(), expected.getName()
         );
@@ -66,12 +72,30 @@ public final class ClientServerTest {
         final Profile expected = new Profile(profile.getId() * 2, profile.getName() + profile.getName());
 
         final Profile actual = restClient.postForObject(
-                path(PROFILE),
+                path(PROFILE_RESOURCE),
                 profile,
                 Profile.class
         );
 
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldThrowHttpClientErrorExceptionWithBadRequest() {
+        try {
+            restClient.getForObject(path(BAD_REQUEST_RESOURCE), Profile.class);
+        } catch (HttpClientErrorException e) {
+            assertEquals(HttpStatus.BAD_REQUEST, e.getStatusCode());
+        }
+    }
+
+    @Test
+    public void shouldReturnNotImplementedStatusCode() {
+        try {
+            restClient.getForEntity(path(UNSUPPORTED_RESOURCE), Profile.class);
+        } catch (HttpServerErrorException e) {
+            assertEquals(HttpStatus.NOT_IMPLEMENTED, e.getStatusCode());
+        }
     }
 
 
@@ -94,16 +118,36 @@ public final class ClientServerTest {
     @RequestMapping(value = REST_API_METHOD_PREFIX)
     public static final class TestController {
 
-        @RequestMapping(GET_PROFILE)
+        @RequestMapping(COMPLETE_PROFILE_RESOURCE)
         @ResponseBody
         public Profile getProfile(@PathVariable("id") int id, @PathVariable("name") String name) {
             return new Profile(id, name);
         }
 
-        @RequestMapping(value = PROFILE, method = RequestMethod.POST)
+        @RequestMapping(value = PROFILE_RESOURCE, method = RequestMethod.POST)
         @ResponseBody
         public Profile upgradeProfile(@RequestBody Profile profile) {
             return new Profile(profile.id * 2, profile.getName() + profile.getName());
+        }
+
+        @RequestMapping(value = BAD_REQUEST_RESOURCE)
+        public Profile badRequest() {
+            throw new IllegalArgumentException();
+        }
+
+        @RequestMapping(value = UNSUPPORTED_RESOURCE)
+        public Profile unsupportedResource() {
+            throw new UnsupportedOperationException();
+        }
+
+        @ExceptionHandler(IllegalArgumentException.class)
+        public void handleIllegalArgumentException(HttpServletResponse response) {
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+        }
+
+        @ExceptionHandler(UnsupportedOperationException.class)
+        public void handleUnsupportedOperationException(HttpServletResponse response) {
+            response.setStatus(HttpStatus.NOT_IMPLEMENTED.value());
         }
     }
 
