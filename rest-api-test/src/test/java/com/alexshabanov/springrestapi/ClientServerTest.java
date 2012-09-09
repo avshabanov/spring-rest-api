@@ -14,11 +14,15 @@
 
 package com.alexshabanov.springrestapi;
 
+import com.alexshabanov.springrestapi.restapitest.config.MockWebMvcConfig;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,16 +34,17 @@ import org.springframework.web.client.RestOperations;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
  * Verifies that testing facilities introduced in the module works against the given spring version and sane.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/spring/ClientServerTest-context.xml")
+//@ContextConfiguration("classpath:/spring/ClientServerTest-context.xml")
+@ContextConfiguration(classes = ClientServerTest.Config.class)
 public final class ClientServerTest {
-
-    //private static final String CONTENT_TYPE = "application/json";
 
     private static final String REST_API_METHOD_PREFIX = "/rest/test";
 
@@ -107,8 +112,19 @@ public final class ClientServerTest {
      * Test configuration context
      */
     @Configuration
-    public static class Config {
+    public static class Config extends MockWebMvcConfig {
 
+        @Override
+        public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+            final MappingJacksonHttpMessageConverter jacksonHttpMessageConverter = new MappingJacksonHttpMessageConverter();
+            jacksonHttpMessageConverter.getObjectMapper().setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+            converters.add(jacksonHttpMessageConverter);
+        }
+
+        @Bean
+        public TestController testController() {
+            return new TestController();
+        }
     }
 
     /**
