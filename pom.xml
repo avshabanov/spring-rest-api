@@ -9,9 +9,9 @@
     <name>Spring REST API Demo Project Root</name>
 
     <modules>
-        <module>app-rest-api</module>
         <module>rest-api-test</module>
-        <module>client-app</module>
+        <module>app-rest-provider</module>
+        <module>app-domain</module>
         <module>client-app</module>
         <module>server-app</module>
     </modules>

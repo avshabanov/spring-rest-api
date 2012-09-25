@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>com.alexshabanov.springrestapi</groupId>
-    <artifactId>app-rest-api</artifactId>
+    <artifactId>app-rest-provider</artifactId>
     <version>${app.version}</version>
     <packaging>jar</packaging>
     <name>REST API exposure</name>
