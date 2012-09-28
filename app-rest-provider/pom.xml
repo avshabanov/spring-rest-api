@@ -12,7 +12,7 @@
     <artifactId>app-rest-provider</artifactId>
     <version>${app.version}</version>
     <packaging>jar</packaging>
-    <name>REST API exposure</name>
+    <name>REST API provider</name>
 
     <dependencies>
         <dependency>

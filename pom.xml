@@ -10,6 +10,7 @@
 
     <modules>
         <module>rest-api-test</module>
+        <module>app-rest-common</module>
         <module>app-rest-provider</module>
         <module>app-domain</module>
         <module>client-app</module>

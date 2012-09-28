@@ -2,6 +2,14 @@ spring-rest-api
 ===============
 
 Illustration of the best practices for designing and testing client-server application with REST API interface
+The present approach introduces the following artifacts:
+    app-domain          Domain objects and service interfaces, no framework dependencies.
+    app-rest-common     Common entities for rest exposure
+    app-rest-provider   Server-side REST controllers for Spring MVC infrastructure
+    client-app          Client application demo
+        Uses: app-domain, app-rest-common and (for testing only, hence in test scope) app-rest-provider
+    server-app          Server application demo
+        Uses: app-domain, app-rest-common, app-rest-provider
 
 ## Install
 mvn clean install
