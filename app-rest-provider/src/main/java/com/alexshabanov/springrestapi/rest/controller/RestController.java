@@ -32,8 +32,12 @@ import static com.alexshabanov.springrestapi.rest.common.RestConstants.REGISTER_
 @Controller
 public final class RestController {
 
+    private final UserService userService;
+
     @Inject
-    private UserService userService;
+    public RestController(UserService userService) {
+        this.userService = userService;
+    }
 
     @RequestMapping(value = REGISTER_USER_URI, method = RequestMethod.POST)
     @ResponseBody

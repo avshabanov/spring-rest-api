@@ -20,5 +20,15 @@
             <artifactId>app-domain</artifactId>
             <version>${app.version}</version>
         </dependency>
+
+        <!-- Jackson -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
     </dependencies>
 </project>

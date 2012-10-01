@@ -34,6 +34,13 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- CGLIB for @Configuration processing -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Jackson -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -42,6 +49,26 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
+
+        <!-- Tests -->
+        <dependency>
+            <groupId>com.alexshabanov.springrestapi</groupId>
+            <artifactId>app-rest-provider</artifactId>
+            <version>${app.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.alexshabanov.springrestapi</groupId>
+            <artifactId>rest-api-test</artifactId>
+            <version>${app.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Servlet API -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
