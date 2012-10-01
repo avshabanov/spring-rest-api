@@ -1,6 +1,6 @@
 package com.alexshabanov.springrestapi.domain;
 
-public class User {
+public final class User extends DomainObject {
     private int id;
     private String name;
     private BankAccount account;

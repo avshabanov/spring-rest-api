@@ -12,32 +12,13 @@
     <artifactId>app-rest-common</artifactId>
     <version>${app.version}</version>
     <packaging>jar</packaging>
-    <name>app-rest-common Application</name>
-
-    <properties>
-        <!--  compiler settings -->
-        <maven.compiler.source>1.6</maven.compiler.source>
-        <maven.compiler.target>1.6</maven.compiler.target>
-
-        <!-- encoding -->
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
-
+    <name>Common REST API Exposure module</name>
 
     <dependencies>
-        <!-- test scope -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <version>3.0</version>
-            <scope>test</scope>
+            <groupId>com.alexshabanov.springrestapi</groupId>
+            <artifactId>app-domain</artifactId>
+            <version>${app.version}</version>
         </dependency>
     </dependencies>
 </project>

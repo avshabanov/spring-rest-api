@@ -1,6 +1,8 @@
-package com.alexshabanov.springrestapi.rest;
+package com.alexshabanov.springrestapi.rest.common;
 
-public class IdHolder {
+import com.alexshabanov.springrestapi.domain.DomainObject;
+
+public class IdHolder extends DomainObject {
     private int id;
 
     public int getId() {

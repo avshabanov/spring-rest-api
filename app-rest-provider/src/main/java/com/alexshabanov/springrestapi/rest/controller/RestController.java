@@ -14,28 +14,30 @@
 
 package com.alexshabanov.springrestapi.rest.controller;
 
-import com.alexshabanov.springrestapi.rest.IdHolder;
+import com.alexshabanov.springrestapi.rest.common.IdHolder;
 import com.alexshabanov.springrestapi.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.inject.Inject;
 
+import static com.alexshabanov.springrestapi.rest.common.RestConstants.REGISTER_USER_URI;
+
 /**
  * Exposes REST API methods for user api.
  */
 @Controller
-@RequestMapping("/user")
-public final class UserRestController {
+public final class RestController {
 
     @Inject
     private UserService userService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = REGISTER_USER_URI, method = RequestMethod.POST)
     @ResponseBody
-    public IdHolder register(String name) {
+    public IdHolder registerUser(@RequestBody String name) {
         return IdHolder.as(userService.register(name));
     }
 }
