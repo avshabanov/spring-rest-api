@@ -1,5 +1,6 @@
 package com.alexshabanov.springrestapi.rest.common;
 
+import com.alexshabanov.springrestapi.domain.DomainObject;
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.*;
@@ -11,7 +12,7 @@ import java.io.IOException;
  * Represents string container that inlines it's representation into the one string.
  */
 @JsonDeserialize(using = InlineString.Deserializer.class)
-public final class InlineString implements JsonSerializableWithType {
+public final class InlineString extends DomainObject implements JsonSerializableWithType {
     private final String value;
 
     public String getValue() {
