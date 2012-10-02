@@ -14,11 +14,16 @@
 
 package com.alexshabanov.springrestapi.rest.controller;
 
+import com.alexshabanov.springrestapi.domain.BankAccount;
 import com.alexshabanov.springrestapi.domain.User;
 import com.alexshabanov.springrestapi.rest.common.InlineInt;
 import com.alexshabanov.springrestapi.rest.common.InlineString;
+import com.alexshabanov.springrestapi.service.BankAccountService;
 import com.alexshabanov.springrestapi.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -34,9 +39,15 @@ public final class RestController {
 
     private final UserService userService;
 
+    private final BankAccountService bankAccountService;
+
     @Inject
-    public RestController(UserService userService) {
+    public RestController(UserService userService, BankAccountService bankAccountService) {
+        Assert.notNull(userService, "userService can't be null");
+        Assert.notNull(bankAccountService, "bankAccountService can't be null");
+
         this.userService = userService;
+        this.bankAccountService = bankAccountService;
     }
 
     //
@@ -59,5 +70,23 @@ public final class RestController {
     @ResponseBody
     public List<User> findAllUsers() {
         return userService.findAll();
+    }
+
+
+    //
+    // BankAccountService exposure
+    //
+
+    @RequestMapping(value = UPDATE_BANK_ACCOUNT_URI, method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<Void> updateBankAccount(@PathVariable("id") int userId, @RequestBody BankAccount account) {
+        bankAccountService.updateAccount(userId, account);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = REGISTER_BANK_ACCOUNT_URI, method = RequestMethod.POST)
+    @ResponseBody
+    public InlineInt registerBankAccount(@RequestBody BankAccount account) {
+        return InlineInt.as(bankAccountService.registerAccount(account));
     }
 }

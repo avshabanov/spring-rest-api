@@ -19,4 +19,8 @@ public final class RestConstants {
     //
     // Bank account service URIs
     //
+
+    public static final String UPDATE_BANK_ACCOUNT_URI = "/user/{id}/account";
+
+    public static final String REGISTER_BANK_ACCOUNT_URI = "/account";
 }

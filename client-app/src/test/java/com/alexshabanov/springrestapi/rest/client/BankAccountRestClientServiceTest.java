@@ -1,7 +1,6 @@
 package com.alexshabanov.springrestapi.rest.client;
 
 import com.alexshabanov.springrestapi.domain.BankAccount;
-import com.alexshabanov.springrestapi.domain.User;
 import com.alexshabanov.springrestapi.rest.controller.RestController;
 import com.alexshabanov.springrestapi.restapitest.config.MockWebMvcConfig;
 import com.alexshabanov.springrestapi.service.BankAccountService;
@@ -17,45 +16,39 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = UserRestClientServiceTest.Config.class)
-public final class UserRestClientServiceTest {
+@ContextConfiguration(classes = BankAccountRestClientServiceTest.Config.class)
+public final class BankAccountRestClientServiceTest {
 
-    @Resource(name = "userServiceMock")
-    private UserService userServiceMock;
+    @Resource(name = "bankAccountServiceMock")
+    private BankAccountService bankAccountServiceMock;
 
-    @Resource(name = "userServiceClient")
-    private UserService userServiceClient;
+    @Resource(name = "bankAccountServiceClient")
+    private BankAccountService bankAccountServiceClient;
 
     // test data
-    private final User user = User.as(1, "name", BankAccount.as(1, 12L, "code"));
+    private final BankAccount bankAccount = BankAccount.as(1, 12L, "code");
 
     @Test
-    public void shouldRegisterUser() {
-        when(userServiceMock.register(user.getName())).thenReturn(user.getId());
-        assertEquals(user.getId(), userServiceClient.register(user.getName()));
+    public void shouldUpdateAccount() {
+        final int userId = 1;
+        doNothing().when(bankAccountServiceMock).updateAccount(userId, bankAccount);
+
+        bankAccountServiceMock.updateAccount(userId, bankAccount);
+
+        verify(bankAccountServiceMock).updateAccount(userId, bankAccount);
     }
 
     @Test
-    public void shouldFindUser() {
-        when(userServiceMock.findById(user.getId())).thenReturn(user);
-        assertEquals(user, userServiceClient.findById(user.getId()));
+    public void shouldRegisterAccount() {
+        when(bankAccountServiceMock.registerAccount(bankAccount)).thenReturn(bankAccount.getId());
+        assertEquals(bankAccount.getId(), bankAccountServiceClient.registerAccount(bankAccount));
     }
-
-    @Test
-    public void shouldFindAllUsers() {
-        final List<User> users = Arrays.asList(user, User.as(2, "name2"), user);
-        when(userServiceMock.findAll()).thenReturn(users);
-        assertEquals(users, userServiceClient.findAll());
-    }
-
 
     /**
      * Test configuration context
@@ -76,19 +69,19 @@ public final class UserRestClientServiceTest {
             return jacksonHttpMessageConverter;
         }
 
-        @Bean(name = "userServiceMock")
-        public UserService userServiceMock() {
-            return mock(UserService.class);
+        @Bean(name = "bankAccountServiceMock")
+        public BankAccountService bankAccountServiceMock() {
+            return mock(BankAccountService.class);
         }
 
-        @Bean(name = "userServiceClient")
-        public UserService userServiceClient() {
-            return new UserRestClientService("http://host/", testClient());
+        @Bean(name = "bankAccountServiceClient")
+        public BankAccountService bankAccountServiceClient() {
+            return new BankAccountRestClientService("http://host/", testClient());
         }
 
         @Bean
         public RestController restController() {
-            return new RestController(userServiceMock(), mock(BankAccountService.class));
+            return new RestController(mock(UserService.class), bankAccountServiceMock());
         }
     }
 }
