@@ -7,6 +7,8 @@ import com.alexshabanov.springrestapi.rest.common.RestConstants;
 import com.alexshabanov.springrestapi.service.UserService;
 import org.springframework.web.client.RestOperations;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,11 +31,12 @@ public final class UserRestClientService extends AbstractRestClientService imple
 
     @Override
     public User findById(int id) {
-        return getRestOperations().getForObject(getMethodUri(RestConstants.FIND_USER_URI), User.class, id);
+        return getRestOperations().getForObject(getMethodUri(RestConstants.FIND_USER_BY_ID_URI), User.class, id);
     }
 
     @Override
-    public List<User> findUsers() {
-        throw new UnsupportedOperationException();
+    public List<User> findAll() {
+        return Collections.unmodifiableList(Arrays.asList(
+                getRestOperations().getForObject(getMethodUri(RestConstants.FIND_ALL_USERS_URI), User[].class)));
     }
 }

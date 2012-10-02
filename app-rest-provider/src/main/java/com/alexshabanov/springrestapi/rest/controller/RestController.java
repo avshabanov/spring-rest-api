@@ -22,9 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.List;
 
-import static com.alexshabanov.springrestapi.rest.common.RestConstants.FIND_USER_URI;
-import static com.alexshabanov.springrestapi.rest.common.RestConstants.REGISTER_USER_URI;
+import static com.alexshabanov.springrestapi.rest.common.RestConstants.*;
 
 /**
  * Exposes REST API methods for user api.
@@ -49,9 +49,15 @@ public final class RestController {
         return InlineInt.as(userService.register(name.getValue()));
     }
 
-    @RequestMapping(FIND_USER_URI)
+    @RequestMapping(FIND_USER_BY_ID_URI)
     @ResponseBody
-    public User findUser(@PathVariable("id") int id) {
+    public User findUserById(@PathVariable("id") int id) {
         return userService.findById(id);
+    }
+
+    @RequestMapping(FIND_ALL_USERS_URI)
+    @ResponseBody
+    public List<User> findAllUsers() {
+        return userService.findAll();
     }
 }

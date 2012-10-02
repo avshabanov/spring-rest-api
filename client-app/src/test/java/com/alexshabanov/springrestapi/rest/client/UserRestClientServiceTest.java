@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -44,6 +45,13 @@ public final class UserRestClientServiceTest {
     public void shouldFindUser() {
         when(userServiceMock.findById(user.getId())).thenReturn(user);
         assertEquals(user, userServiceClient.findById(user.getId()));
+    }
+
+    @Test
+    public void shouldFindAllUsers() {
+        final List<User> users = Arrays.asList(user, User.as(2, "name2"), user);
+        when(userServiceMock.findAll()).thenReturn(users);
+        assertEquals(users, userServiceClient.findAll());
     }
 
 
