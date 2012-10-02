@@ -25,8 +25,7 @@ public final class UserRestClientService extends AbstractRestClientService imple
         return getRestOperations().postForObject(
                 getMethodUri(RestConstants.REGISTER_USER_URI),
                 new InlineString(name),
-                InlineInt.class)
-                .getValue();
+                InlineInt.class).getValue();
     }
 
     @Override
