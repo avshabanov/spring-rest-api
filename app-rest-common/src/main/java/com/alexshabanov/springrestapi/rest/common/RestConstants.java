@@ -8,5 +8,5 @@ public final class RestConstants {
 
     public static final String REGISTER_USER_URI = "/user/register";
 
-    public static final String FIND_USER_URI = "/user/{}";
+    public static final String FIND_USER_URI = "/user/{id}";
 }

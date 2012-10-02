@@ -1,5 +1,6 @@
 package com.alexshabanov.springrestapi.rest.client;
 
+import com.alexshabanov.springrestapi.domain.User;
 import com.alexshabanov.springrestapi.rest.controller.RestController;
 import com.alexshabanov.springrestapi.restapitest.config.MockWebMvcConfig;
 import com.alexshabanov.springrestapi.service.UserService;
@@ -30,14 +31,19 @@ public final class UserRestClientServiceTest {
     @Resource(name = "userServiceClient")
     private UserService userServiceClient;
 
+    // test data
+    private final User user = User.as(1, "name");
+
     @Test
-    public void shouldReturnExpectedProfile() {
-        final int id = 1;
-        final String name = "name";
+    public void shouldRegisterUser() {
+        when(userServiceMock.register(user.getName())).thenReturn(user.getId());
+        assertEquals(user.getId(), userServiceClient.register(user.getName()));
+    }
 
-        when(userServiceMock.register(name)).thenReturn(id);
-
-        assertEquals(id, userServiceClient.register(name));
+    @Test
+    public void shouldFindUser() {
+        when(userServiceMock.findById(user.getId())).thenReturn(user);
+        assertEquals(user, userServiceClient.findById(user.getId()));
     }
 
 

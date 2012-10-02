@@ -14,17 +14,16 @@
 
 package com.alexshabanov.springrestapi.rest.controller;
 
+import com.alexshabanov.springrestapi.domain.User;
 import com.alexshabanov.springrestapi.rest.common.InlineInt;
 import com.alexshabanov.springrestapi.rest.common.InlineString;
 import com.alexshabanov.springrestapi.service.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 
+import static com.alexshabanov.springrestapi.rest.common.RestConstants.FIND_USER_URI;
 import static com.alexshabanov.springrestapi.rest.common.RestConstants.REGISTER_USER_URI;
 
 /**
@@ -48,5 +47,11 @@ public final class RestController {
     @ResponseBody
     public InlineInt registerUser(@RequestBody InlineString name) {
         return InlineInt.as(userService.register(name.getValue()));
+    }
+
+    @RequestMapping(FIND_USER_URI)
+    @ResponseBody
+    public User findUser(@PathVariable("id") int id) {
+        return userService.findById(id);
     }
 }

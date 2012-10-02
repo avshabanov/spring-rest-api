@@ -29,7 +29,7 @@ public final class UserRestClientService extends AbstractRestClientService imple
 
     @Override
     public User findById(int id) {
-        throw new UnsupportedOperationException();
+        return getRestOperations().getForObject(getMethodUri(RestConstants.FIND_USER_URI), User.class, id);
     }
 
     @Override

@@ -5,6 +5,16 @@ public final class User extends DomainObject {
     private String name;
     private BankAccount account;
 
+    public User() {
+    }
+
+    public static User as(int id, String name) {
+        final User user = new User();
+        user.setId(id);
+        user.setName(name);
+        return user;
+    }
+
     public int getId() {
         return id;
     }
