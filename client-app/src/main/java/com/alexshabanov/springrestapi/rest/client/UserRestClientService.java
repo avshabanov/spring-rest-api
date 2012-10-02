@@ -1,7 +1,7 @@
 package com.alexshabanov.springrestapi.rest.client;
 
 import com.alexshabanov.springrestapi.domain.User;
-import com.alexshabanov.springrestapi.rest.common.IdHolder;
+import com.alexshabanov.springrestapi.rest.common.InlineInt;
 import com.alexshabanov.springrestapi.rest.common.InlineString;
 import com.alexshabanov.springrestapi.rest.common.RestConstants;
 import com.alexshabanov.springrestapi.service.UserService;
@@ -23,8 +23,8 @@ public final class UserRestClientService extends AbstractRestClientService imple
         return getRestOperations().postForObject(
                 getMethodUri(RestConstants.REGISTER_USER_URI),
                 new InlineString(name),
-                IdHolder.class)
-                .getId();
+                InlineInt.class)
+                .getValue();
     }
 
     @Override

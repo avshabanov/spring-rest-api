@@ -14,9 +14,8 @@
 
 package com.alexshabanov.springrestapi.rest.controller;
 
-import com.alexshabanov.springrestapi.rest.common.IdHolder;
+import com.alexshabanov.springrestapi.rest.common.InlineInt;
 import com.alexshabanov.springrestapi.rest.common.InlineString;
-import com.alexshabanov.springrestapi.rest.common.RestConstants;
 import com.alexshabanov.springrestapi.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,9 +40,13 @@ public final class RestController {
         this.userService = userService;
     }
 
+    //
+    // UserService exposure
+    //
+
     @RequestMapping(value = REGISTER_USER_URI, method = RequestMethod.POST)
     @ResponseBody
-    public IdHolder registerUser(@RequestBody InlineString name) {
-        return IdHolder.as(userService.register(name.getValue()));
+    public InlineInt registerUser(@RequestBody InlineString name) {
+        return InlineInt.as(userService.register(name.getValue()));
     }
 }
