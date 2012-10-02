@@ -1,5 +1,6 @@
 package com.alexshabanov.springrestapi.rest.client;
 
+import com.alexshabanov.springrestapi.domain.BankAccount;
 import com.alexshabanov.springrestapi.domain.User;
 import com.alexshabanov.springrestapi.rest.controller.RestController;
 import com.alexshabanov.springrestapi.restapitest.config.MockWebMvcConfig;
@@ -33,7 +34,7 @@ public final class UserRestClientServiceTest {
     private UserService userServiceClient;
 
     // test data
-    private final User user = User.as(1, "name");
+    private final User user = User.as(1, "name", BankAccount.as(1, 12L, "code"));
 
     @Test
     public void shouldRegisterUser() {

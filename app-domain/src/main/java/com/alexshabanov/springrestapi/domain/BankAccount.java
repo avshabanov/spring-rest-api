@@ -5,6 +5,14 @@ public final class BankAccount extends DomainObject {
     private long money;
     private String code;
 
+    public static BankAccount as(int id, long money, String code) {
+        final BankAccount account = new BankAccount();
+        account.setId(id);
+        account.setMoney(money);
+        account.setCode(code);
+        return account;
+    }
+
     public int getId() {
         return id;
     }
