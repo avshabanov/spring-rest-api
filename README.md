@@ -39,12 +39,16 @@ Now REST API testing should not be a problem :)
 
 ## How to run demo
 To run the illustrated sample, first you need to mvn clean install then run server
+```
     mvn jetty:run -Pjetty-local
-- this will start server on http://127.0.0.1:9090/server-app
-- to check REST API is accessible type http://127.0.0.1:9090/server-app/rest/users in your browser or curl it
+```    
+<- this will start server on http://127.0.0.1:9090/server-app
+In order to check REST API just type http://127.0.0.1:9090/server-app/rest/users in your browser or curl it.
 
 In order to run client you'll need to launch App in the client-app application:
+```
     mvn exec:java -Dexec.mainClass=com.alexshabanov.springrestapi.App
+```
 
 Have fun!
 
