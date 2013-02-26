@@ -24,13 +24,11 @@
         <dependency>
             <groupId>com.alexshabanov.springrestapi</groupId>
             <artifactId>app-domain</artifactId>
-            <version>${app.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.alexshabanov.springrestapi</groupId>
             <artifactId>app-rest-common</artifactId>
-            <version>${app.version}</version>
         </dependency>
 
         <!-- CGLIB, only required and used for @Configuration usage -->

@@ -14,6 +14,9 @@
 
 package com.alexshabanov.springrestapi.config;
 
+import com.alexshabanov.springrestapi.controller.HelloController;
+import com.alexshabanov.springrestapi.rest.controller.RestController;
+import com.alexshabanov.springrestapi.service.UserServiceImpl;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,6 +24,6 @@ import org.springframework.context.annotation.Configuration;
  * Application components configuration.
  */
 @Configuration
-@ComponentScan(basePackages = "com.alexshabanov.springrestapi")
+@ComponentScan(basePackageClasses = {UserServiceImpl.class, HelloController.class, RestController.class})
 public class ComponentConfig {
 }
