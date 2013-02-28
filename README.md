@@ -37,6 +37,34 @@ The illustrated sample uses
 
 Now REST API testing should not be a problem :)
 
+## Adding as maven project
+
+Repository:
+
+```xml
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>custom-central</id>
+            <url>https://github.com/avshabanov/maven-repo/raw/master/libs-release</url>
+        </repository>
+    </repositories>
+```
+
+Project:
+
+```xml
+    <dependency>
+        <groupId>com.alexshabanov.springrestapi</groupId>
+        <artifactId>rest-api-test</artifactId>
+        <version>1.0.1</version>
+        <scope>test</scope>
+    </dependency>
+```
+
+
 ## How to run demo
 To run the illustrated sample, first you need to mvn clean install then run server
 ```
