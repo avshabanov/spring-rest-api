@@ -10,10 +10,10 @@
 
     <groupId>com.alexshabanov.springrestapi</groupId>
     <artifactId>rest-api-test</artifactId>
-    <version>${app.version}</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>REST API test helpers</name>
-    <description>junit helpers for REST API testing</description>
+    <description>JUnit helpers for Spring MVC-driven REST API testing</description>
 
 
     <dependencies>

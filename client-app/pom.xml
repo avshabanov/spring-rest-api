@@ -61,7 +61,7 @@
         <dependency>
             <groupId>com.alexshabanov.springrestapi</groupId>
             <artifactId>rest-api-test</artifactId>
-            <version>${app.version}</version>
+            <version>1.0.1</version>
             <scope>test</scope>
         </dependency>
         <!-- Logging -->
