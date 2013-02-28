@@ -39,7 +39,7 @@ public final class BankAccountRestClientServiceTest {
         final int userId = 1;
         doNothing().when(bankAccountServiceMock).updateAccount(userId, bankAccount);
 
-        bankAccountServiceMock.updateAccount(userId, bankAccount);
+        bankAccountServiceClient.updateAccount(userId, bankAccount);
 
         verify(bankAccountServiceMock).updateAccount(userId, bankAccount);
     }

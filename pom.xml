@@ -41,6 +41,30 @@
     <dependencyManagement>
 
         <dependencies>
+            <!-- Child projects -->
+            <dependency>
+                <groupId>com.alexshabanov.springrestapi</groupId>
+                <artifactId>app-domain</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alexshabanov.springrestapi</groupId>
+                <artifactId>app-rest-common</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alexshabanov.springrestapi</groupId>
+                <artifactId>app-rest-provider</artifactId>
+                <version>${app.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alexshabanov.springrestapi</groupId>
+                <artifactId>rest-api-test</artifactId>
+                <version>1.0.1</version>
+                <scope>test</scope>
+            </dependency>
+
+
             <!-- Logging -->
             <dependency>
                 <groupId>org.slf4j</groupId>

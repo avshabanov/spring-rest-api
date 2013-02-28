@@ -16,6 +16,16 @@
     <name>Server Application</name>
 
     <dependencies>
+        <dependency>
+            <groupId>com.alexshabanov.springrestapi</groupId>
+            <artifactId>app-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alexshabanov.springrestapi</groupId>
+            <artifactId>app-rest-provider</artifactId>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
