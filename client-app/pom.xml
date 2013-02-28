@@ -5,12 +5,11 @@
     <parent>
         <artifactId>spring-rest-api</artifactId>
         <groupId>com.alexshabanov.springrestapi</groupId>
-        <version>1.0-ROOT-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <groupId>com.alexshabanov.springrestapi</groupId>
     <artifactId>client-app</artifactId>
-    <version>${app.version}</version>
     <packaging>jar</packaging>
     <name>Client Application</name>
 

@@ -5,12 +5,11 @@
     <parent>
         <artifactId>spring-rest-api</artifactId>
         <groupId>com.alexshabanov.springrestapi</groupId>
-        <version>1.0-ROOT-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <groupId>com.alexshabanov.springrestapi</groupId>
     <artifactId>rest-api-test</artifactId>
-    <version>1.0.1</version>
     <packaging>jar</packaging>
     <name>REST API test helpers</name>
     <description>JUnit helpers for Spring MVC-driven REST API testing</description>
