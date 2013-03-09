@@ -15,6 +15,7 @@
 package com.alexshabanov.springrestapi;
 
 import com.alexshabanov.springrestapi.support.ProfileController;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,11 @@ public final class XmlDrivenConfigTest {
     private ProfileController profileController;
 
     private final long id = 1;
+
+    @Before
+    public void resetController() {
+        reset(profileController);
+    }
 
     @Test
     public void shouldDeleteProfile() {
