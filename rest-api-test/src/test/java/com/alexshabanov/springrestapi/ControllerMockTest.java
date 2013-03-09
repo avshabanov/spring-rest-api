@@ -15,27 +15,32 @@
 package com.alexshabanov.springrestapi;
 
 import com.alexshabanov.springrestapi.restapitest.config.MockWebMvcConfig;
+import com.alexshabanov.springrestapi.support.ErrorDesc;
 import com.alexshabanov.springrestapi.support.Profile;
 import com.alexshabanov.springrestapi.support.ProfileController;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestOperations;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.List;
 
-import static com.alexshabanov.springrestapi.support.ProfileController.COMPLETE_PROFILE_RESOURCE;
+import static com.alexshabanov.springrestapi.support.ProfileController.*;
 import static com.alexshabanov.springrestapi.support.ProfileUtil.path;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests controller mock.
@@ -51,15 +56,69 @@ public class ControllerMockTest {
     @Inject
     private RestOperations restClient;
 
+    @Inject
+    private MappingJacksonHttpMessageConverter jacksonHttpMessageConverter;
+
+    private final int id = 1;
+    private final Profile profile = new Profile(20, "alice");
+    private final ErrorDesc errorDesc = new ErrorDesc(1, "reason");
+
     @Test
     public void shouldReturnExpectedProfile() {
-        final int id = 1;
         final String name = "name";
-        final Profile profile = new Profile(20, "alice");
         when(profileController.getProfile(id, name)).thenReturn(profile);
+        assertEquals(profile, restClient.getForObject(path(COMPLETE_PROFILE_RESOURCE), Profile.class, id, name));
+    }
 
-        final Profile actual = restClient.getForObject(path(COMPLETE_PROFILE_RESOURCE), Profile.class, id, name);
-        assertEquals(profile, actual);
+    @Test
+    public void shouldUpgradeProfile() {
+        final Profile profile2 = new Profile(30, "bob");
+        when(profileController.upgradeProfile(profile)).thenReturn(profile2);
+        assertEquals(profile2, restClient.postForObject(path(PROFILE_RESOURCE), profile, Profile.class));
+    }
+
+    @Test
+    public void shouldDeleteProfile() {
+        doNothing().when(profileController).deleteProfile(id);
+        restClient.delete(path(CONCRETE_PROFILE_RESOURCE), id);
+        verify(profileController).deleteProfile(id);
+    }
+
+    @Test
+    public void shouldPutProfile() {
+        doNothing().when(profileController).putProfile(id, profile);
+        restClient.put(path(CONCRETE_PROFILE_RESOURCE), profile, id);
+        verify(profileController).putProfile(id, profile);
+    }
+
+    @Test
+    public void shouldGetBadRequest() throws IOException {
+        doThrow(IllegalArgumentException.class).when(profileController).deleteProfile(id);
+        when(profileController.handleIllegalArgumentException()).thenReturn(errorDesc);
+
+        try {
+            restClient.delete(path(CONCRETE_PROFILE_RESOURCE), id);
+            fail();
+        } catch (HttpClientErrorException e) {
+            assertEquals(HttpStatus.BAD_REQUEST, e.getStatusCode());
+            final ErrorDesc actual = getObjectMapper().reader(ErrorDesc.class).readValue(e.getResponseBodyAsString());
+            assertEquals(errorDesc, actual);
+        }
+    }
+
+    @Test
+    public void shouldGetInternalServerError() throws IOException {
+        doThrow(UnsupportedOperationException.class).when(profileController).deleteProfile(id);
+        when(profileController.handleUnsupportedOperationException()).thenReturn(errorDesc);
+
+        try {
+            restClient.delete(path(CONCRETE_PROFILE_RESOURCE), id);
+            fail();
+        } catch (HttpServerErrorException e) {
+            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, e.getStatusCode());
+            final ErrorDesc actual = getObjectMapper().reader(ErrorDesc.class).readValue(e.getResponseBodyAsString());
+            assertEquals(errorDesc, actual);
+        }
     }
 
     /**
@@ -70,14 +129,23 @@ public class ControllerMockTest {
 
         @Override
         public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-            final MappingJacksonHttpMessageConverter jacksonHttpMessageConverter = new MappingJacksonHttpMessageConverter();
-            jacksonHttpMessageConverter.getObjectMapper().setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
-            converters.add(jacksonHttpMessageConverter);
+            converters.add(jacksonHttpMessageConverter());
+        }
+
+        @Bean
+        public MappingJacksonHttpMessageConverter jacksonHttpMessageConverter() {
+            final MappingJacksonHttpMessageConverter converter = new MappingJacksonHttpMessageConverter();
+            converter.getObjectMapper().setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+            return converter;
         }
 
         @Bean
         public ProfileController profileController() {
             return mock(ProfileController.class);
         }
+    }
+
+    private ObjectMapper getObjectMapper() {
+        return jacksonHttpMessageConverter.getObjectMapper();
     }
 }

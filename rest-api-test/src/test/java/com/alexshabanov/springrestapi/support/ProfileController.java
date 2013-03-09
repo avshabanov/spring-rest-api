@@ -18,10 +18,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * Controller that exposes REST API methods for working with {@link Profile} objects.
+ * </p>
+ * The sole purpose of this class is to provide testing grounds
+ * for {@link com.alexshabanov.springrestapi.ControllerMockTest}
+ * </p>
  */
 @Controller
 @RequestMapping(value = ProfileController.REST_API_METHOD_PREFIX)
@@ -32,19 +34,34 @@ public class ProfileController {
     // Relative URLs for the exposed REST methods.
     public static final String COMPLETE_PROFILE_RESOURCE = "/profile/{id}/{name}";
     public static final String PROFILE_RESOURCE = "/profile";
+    public static final String CONCRETE_PROFILE_RESOURCE = "/profile/{id}";
     public static final String BAD_REQUEST_RESOURCE = "/bad-request";
     public static final String UNSUPPORTED_RESOURCE = "/unsupported";
 
     @RequestMapping(COMPLETE_PROFILE_RESOURCE)
     @ResponseBody
     public Profile getProfile(@PathVariable("id") int id, @PathVariable("name") String name) {
-        return new Profile(id, name);
+        throw new AssertionError(); // should be mocked
     }
 
     @RequestMapping(value = PROFILE_RESOURCE, method = RequestMethod.POST)
     @ResponseBody
     public Profile upgradeProfile(@RequestBody Profile profile) {
-        return new Profile(profile.getId() * 2, profile.getName() + profile.getName());
+        throw new AssertionError(); // should be mocked
+    }
+
+    @RequestMapping(value = CONCRETE_PROFILE_RESOURCE, method = RequestMethod.DELETE)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProfile(@PathVariable("id") long id) {
+        throw new AssertionError(); // should be mocked
+    }
+
+    @RequestMapping(value = CONCRETE_PROFILE_RESOURCE, method = RequestMethod.PUT)
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void putProfile(@PathVariable("id") long id, @RequestBody Profile profile) {
+        throw new AssertionError(); // should be mocked
     }
 
     @RequestMapping(value = BAD_REQUEST_RESOURCE)
@@ -58,12 +75,16 @@ public class ProfileController {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public void handleIllegalArgumentException(HttpServletResponse response) {
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorDesc handleIllegalArgumentException() {
+        throw new AssertionError(); // should be mocked
     }
 
     @ExceptionHandler(UnsupportedOperationException.class)
-    public void handleUnsupportedOperationException(HttpServletResponse response) {
-        response.setStatus(HttpStatus.NOT_IMPLEMENTED.value());
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorDesc handleUnsupportedOperationException() {
+        throw new AssertionError(); // should be mocked
     }
 }

@@ -4,7 +4,7 @@
 
     <groupId>com.alexshabanov.springrestapi</groupId>
     <artifactId>spring-rest-api</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
     <name>Spring REST API Demo Project Root</name>
 

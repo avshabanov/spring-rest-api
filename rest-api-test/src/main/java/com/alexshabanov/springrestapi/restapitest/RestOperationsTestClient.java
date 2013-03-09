@@ -45,7 +45,10 @@ public final class RestOperationsTestClient extends RestTemplate {
                               ResponseExtractor<T> responseExtractor) throws RestClientException {
         try {
             final ClientHttpRequest clientHttpRequest = createRequest(url, method);
-            requestCallback.doWithRequest(clientHttpRequest);
+
+            if (requestCallback != null) {
+                requestCallback.doWithRequest(clientHttpRequest);
+            }
 
             final MockHttpServletResponse mockHttpServletResponse = testSupport.handle(
                     toMockHttpServletRequest(url, method, clientHttpRequest));
