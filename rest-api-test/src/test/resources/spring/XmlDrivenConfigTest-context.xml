@@ -9,7 +9,9 @@
     <bean class="com.alexshabanov.springrestapi.restapitest.RestOperationsTestClient"/>
 
     <!-- Tested controllers -->
-    <bean class="com.alexshabanov.springrestapi.support.ProfileController"/>
+    <bean class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="com.alexshabanov.springrestapi.support.ProfileController"/>
+    </bean>
 
     <!-- Turns on support for mapping requests to Spring MVC @Controller methods -->
     <mvc:annotation-driven>

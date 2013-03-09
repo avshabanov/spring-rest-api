@@ -33,7 +33,7 @@ import java.util.Map;
 
 /**
  * Holds base Spring MVC configuration for testing purposes.
- * For alternative XML-based configuration take a look on ClientServerTest-context.xml in the test/resources folder.
+ * For alternative XML-based configuration take a look on XmlDrivenConfigTest-context.xml in the test/resources folder.
  * <p/>
  * The prospective user only need:
  * <ul>

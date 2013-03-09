@@ -35,8 +35,6 @@ public class ProfileController {
     public static final String COMPLETE_PROFILE_RESOURCE = "/profile/{id}/{name}";
     public static final String PROFILE_RESOURCE = "/profile";
     public static final String CONCRETE_PROFILE_RESOURCE = "/profile/{id}";
-    public static final String BAD_REQUEST_RESOURCE = "/bad-request";
-    public static final String UNSUPPORTED_RESOURCE = "/unsupported";
 
     @RequestMapping(COMPLETE_PROFILE_RESOURCE)
     @ResponseBody
@@ -64,27 +62,17 @@ public class ProfileController {
         throw new AssertionError(); // should be mocked
     }
 
-    @RequestMapping(value = BAD_REQUEST_RESOURCE)
-    public Profile badRequest() {
-        throw new IllegalArgumentException();
-    }
-
-    @RequestMapping(value = UNSUPPORTED_RESOURCE)
-    public Profile unsupportedResource() {
-        throw new UnsupportedOperationException();
-    }
-
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorDesc handleIllegalArgumentException() {
-        throw new AssertionError(); // should be mocked
+        return new ErrorDesc();
     }
 
     @ExceptionHandler(UnsupportedOperationException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorDesc handleUnsupportedOperationException() {
-        throw new AssertionError(); // should be mocked
+        throw new AssertionError();
     }
 }
