@@ -48,6 +48,14 @@ public class ProfileController {
         throw new AssertionError(); // should be mocked
     }
 
+    @RequestMapping(value = PROFILE_RESOURCE, method = RequestMethod.PUT)
+    @ResponseBody
+    public void putQueryParam(@RequestParam(value = "a", required = false) Long a,
+                              @RequestParam(value = "b", required = false) Long b,
+                              @RequestParam("c") int c) {
+        throw new AssertionError(); // should be mocked
+    }
+
     @RequestMapping(value = CONCRETE_PROFILE_RESOURCE, method = RequestMethod.DELETE)
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)

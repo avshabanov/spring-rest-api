@@ -20,6 +20,7 @@ import com.alexshabanov.springrestapi.support.Profile;
 import com.alexshabanov.springrestapi.support.ProfileController;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.Bean;
@@ -63,6 +64,11 @@ public class ControllerMockTest {
     private final Profile profile = new Profile(20, "alice");
     private final ErrorDesc errorDesc = new ErrorDesc(1, "reason");
 
+    @Before
+    public void resetMock() {
+        reset(profileController);
+    }
+
     @Test
     public void shouldReturnExpectedProfile() {
         final String name = "name";
@@ -89,6 +95,24 @@ public class ControllerMockTest {
         doNothing().when(profileController).putProfile(id, profile);
         restClient.put(path(CONCRETE_PROFILE_RESOURCE), profile, id);
         verify(profileController).putProfile(id, profile);
+    }
+
+    @Test
+    public void shouldPutQueryParam() {
+        final long a = 1;
+        final long b = 2;
+        final int c = 3;
+        doNothing().when(profileController).putQueryParam(a, b, c);
+        restClient.put(path(PROFILE_RESOURCE + "?a={a}&b={b}&c={c}"), null, a, b, c);
+        verify(profileController).putQueryParam(a, b, c);
+    }
+
+    @Test
+    public void shouldPutQueryParamHandleOmittedParams() {
+        final int c = 1;
+        doNothing().when(profileController).putQueryParam(null, null, c);
+        restClient.put(path(PROFILE_RESOURCE + "?a={a}&b={b}&c={c}"), null, null, null, c);
+        verify(profileController).putQueryParam(null, null, c);
     }
 
     @Test

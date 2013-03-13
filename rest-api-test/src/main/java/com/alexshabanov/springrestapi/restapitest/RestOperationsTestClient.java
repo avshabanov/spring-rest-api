@@ -91,6 +91,10 @@ public final class RestOperationsTestClient extends RestTemplate {
             final String[] queryParameters = query.split("&");
             for (String keyValueParam : queryParameters) {
                 final String[] components = keyValueParam.split("=");
+                if (components.length == 1) {
+                    continue; // optional parameter
+                }
+
                 Assert.isTrue(components.length == 2,
                         "Can't split query parameters " + keyValueParam + " by key-value pair");
                 mockHttpServletRequest.setParameter(components[0], components[1]);
