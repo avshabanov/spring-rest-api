@@ -4,7 +4,7 @@
 
     <groupId>com.alexshabanov.springrestapi</groupId>
     <artifactId>spring-rest-api</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <packaging>pom</packaging>
     <name>Spring REST API Demo Project Root</name>
 
@@ -22,8 +22,8 @@
         <slf4j.version>1.6.1</slf4j.version>
         <commons-logging.version>1.1.1</commons-logging.version>
 
-        <aspectj.version>1.6.10</aspectj.version>
-        <spring.version>3.1.1.RELEASE</spring.version>
+        <aspectj.version>1.7.2</aspectj.version>
+        <spring.version>3.2.2.RELEASE</spring.version>
 
         <jackson.version>1.9.9</jackson.version>
 

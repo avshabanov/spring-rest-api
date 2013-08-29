@@ -5,10 +5,9 @@
     <parent>
         <artifactId>spring-rest-api</artifactId>
         <groupId>com.alexshabanov.springrestapi</groupId>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
     </parent>
 
-    <groupId>com.alexshabanov.springrestapi</groupId>
     <artifactId>app-rest-common</artifactId>
     <packaging>jar</packaging>
     <name>Common REST API Exposure module</name>

@@ -25,8 +25,10 @@ import org.springframework.util.Assert;
 import org.springframework.web.client.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URI;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -156,7 +158,8 @@ public final class RestOperationsTestClient extends RestTemplate {
         @Override
         public HttpHeaders getHeaders() {
             final HttpHeaders headers = new HttpHeaders();
-            for (final String name : mockResponse.getHeaderNames()) {
+            final Collection<String> names = mockResponse.getHeaderNames();
+            for (final String name : names) {
                 headers.set(name, mockResponse.getHeader(name));
             }
             return headers;
